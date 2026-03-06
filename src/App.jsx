@@ -29,7 +29,7 @@ const [notes, setNotes] = useState("");
 
   const del = (i) => setTasks(tasks.filter((_, idx) => idx !== i));
 
- return (
+return (
   <div className="container">
     <h1>Daily Planner</h1>
 
@@ -92,8 +92,3 @@ const [notes, setNotes] = useState("");
     </div>
   </div>
 );
-      ))}
-    </ul>
-  </div>
-);
-}
