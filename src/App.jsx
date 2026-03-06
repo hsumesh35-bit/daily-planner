@@ -7,14 +7,35 @@ export default function App() {
   const [priorities, setPriorities] = useState(["", "", ""]);
   const [notes, setNotes] = useState("");
 
+  // Load saved data
   useEffect(() => {
-    const saved = localStorage.getItem("planner_tasks");
-    if (saved) setTasks(JSON.parse(saved));
+    const savedTasks = localStorage.getItem("planner_tasks");
+    const savedDate = localStorage.getItem("planner_date");
+    const savedPriorities = localStorage.getItem("planner_priorities");
+    const savedNotes = localStorage.getItem("planner_notes");
+
+    if (savedTasks) setTasks(JSON.parse(savedTasks));
+    if (savedDate) setDate(savedDate);
+    if (savedPriorities) setPriorities(JSON.parse(savedPriorities));
+    if (savedNotes) setNotes(savedNotes);
   }, []);
 
+  // Save data
   useEffect(() => {
     localStorage.setItem("planner_tasks", JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+    localStorage.setItem("planner_date", date);
+  }, [date]);
+
+  useEffect(() => {
+    localStorage.setItem("planner_priorities", JSON.stringify(priorities));
+  }, [priorities]);
+
+  useEffect(() => {
+    localStorage.setItem("planner_notes", notes);
+  }, [notes]);
 
   const addTask = () => {
     if (!input.trim()) return;
