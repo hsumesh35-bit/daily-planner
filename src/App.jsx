@@ -7,7 +7,6 @@ export default function App() {
   const [priorities, setPriorities] = useState(["", "", ""]);
   const [notes, setNotes] = useState("");
 
-  // Load saved data
   useEffect(() => {
     const savedTasks = localStorage.getItem("planner_tasks");
     const savedDate = localStorage.getItem("planner_date");
@@ -20,7 +19,6 @@ export default function App() {
     if (savedNotes) setNotes(savedNotes);
   }, []);
 
-  // Save data
   useEffect(() => {
     localStorage.setItem("planner_tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -49,68 +47,102 @@ export default function App() {
     setTasks(copy);
   };
 
-  const del = (i) => setTasks(tasks.filter((_, idx) => idx !== i));
+  const del = (i) => {
+    setTasks(tasks.filter((_, idx) => idx !== i));
+  };
 
   return (
-    <div className="container">
-      <h1>Daily Planner</h1>
+    <div className="app-bg">
+      <div className="container">
+        <div className="top-bar">
+          <p className="mini-title">Your Premium Planner</p>
+          <h1>Daily Planner</h1>
+          <p className="subtitle">Plan smart. Stay focused. Finish strong.</p>
+        </div>
 
-      <div className="section">
-        <label>Date</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
+        <div className="card">
+          <div className="section">
+            <label>Date</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+        </div>
 
-      <div className="section">
-        <h3>Top 3 Priorities</h3>
-        {priorities.map((p, i) => (
-          <input
-            key={i}
-            value={p}
-            onChange={(e) => {
-              const updated = [...priorities];
-              updated[i] = e.target.value;
-              setPriorities(updated);
-            }}
-            placeholder={`Priority ${i + 1}`}
-          />
-        ))}
-      </div>
+        <div className="card">
+          <div className="section">
+            <div className="section-head">
+              <h3>Top 3 Priorities</h3>
+              <span className="badge">Most Important</span>
+            </div>
 
-      <div className="input-row">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter task"
-        />
-        <button onClick={addTask}>Add</button>
-      </div>
+            {priorities.map((p, i) => (
+              <input
+                key={i}
+                value={p}
+                onChange={(e) => {
+                  const updated = [...priorities];
+                  updated[i] = e.target.value;
+                  setPriorities(updated);
+                }}
+                placeholder={`Priority ${i + 1}`}
+                className="priority-input"
+              />
+            ))}
+          </div>
+        </div>
 
-      <ul>
-        {tasks.map((t, i) => (
-          <li key={i}>
-            <span
-              onClick={() => toggleTask(i)}
-              className={t.done ? "done" : ""}
-            >
-              {t.text}
-            </span>
-            <button onClick={() => del(i)}>✕</button>
-          </li>
-        ))}
-      </ul>
+        <div className="card">
+          <div className="section">
+            <div className="section-head">
+              <h3>Tasks</h3>
+              <span className="badge soft">Quick List</span>
+            </div>
 
-      <div className="section">
-        <h3>Notes</h3>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="Write your notes here"
-          rows="5"
-        />
+            <div className="input-row">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter next task"
+              />
+              <button onClick={addTask}>Add</button>
+            </div>
+
+            <ul className="task-list">
+              {tasks.map((t, i) => (
+                <li key={i} className="task-item">
+                  <span
+                    onClick={() => toggleTask(i)}
+                    className={t.done ? "done task-text" : "task-text"}
+                  >
+                    {t.text}
+                  </span>
+                  <button className="delete-btn" onClick={() => del(i)}>
+                    ✕
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="section">
+            <div className="section-head">
+              <h3>Notes</h3>
+              <span className="badge soft">Ideas & Reminders</span>
+            </div>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Write your notes here..."
+              rows="8"
+              className="notes-box"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
