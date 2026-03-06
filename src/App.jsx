@@ -33,26 +33,65 @@ const [notes, setNotes] = useState("");
   <div className="container">
     <h1>Daily Planner</h1>
 
+    <div className="section">
+      <label>Date</label>
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
+    </div>
+
+    <div className="section">
+      <h3>Top 3 Priorities</h3>
+      {priorities.map((p, i) => (
+        <input
+          key={i}
+          value={p}
+          onChange={(e) => {
+            const updated = [...priorities];
+            updated[i] = e.target.value;
+            setPriorities(updated);
+          }}
+          placeholder={`Priority ${i + 1}`}
+        />
+      ))}
+    </div>
+
     <div className="input-row">
       <input
         value={input}
-        onChange={(e)=>setInput(e.target.value)}
+        onChange={(e) => setInput(e.target.value)}
         placeholder="Enter task"
       />
       <button onClick={addTask}>Add</button>
     </div>
 
     <ul>
-      {tasks.map((t,i)=>(
+      {tasks.map((t, i) => (
         <li key={i}>
           <span
-            onClick={()=>toggleTask(i)}
+            onClick={() => toggleTask(i)}
             className={t.done ? "done" : ""}
           >
             {t.text}
           </span>
-          <button onClick={()=>del(i)}>✕</button>
+          <button onClick={() => del(i)}>✕</button>
         </li>
+      ))}
+    </ul>
+
+    <div className="section">
+      <h3>Notes</h3>
+      <textarea
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Write your notes here"
+        rows="5"
+      />
+    </div>
+  </div>
+);
       ))}
     </ul>
   </div>
