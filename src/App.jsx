@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 export default function App() {
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState("");
-
+const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+const [priorities, setPriorities] = useState(["", "", ""]);
+const [notes, setNotes] = useState("");
   useEffect(() => {
     const saved = localStorage.getItem("planner_tasks");
     if (saved) setTasks(JSON.parse(saved));
